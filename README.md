@@ -15,6 +15,7 @@ This service bridges real-time UPI micro-transactions with hardware actuation (v
 
 ## 📌 Architecture Overview
 
+```mermaid
 graph TD
     A[📱 User / PhonePe / GPay] -->|1. Scans Dynamic UPI QR| B[💳 Razorpay UPI Gateway]
     B -->|2. Webhook: payment.captured| C[⚡ FastAPI Backend]
@@ -31,7 +32,7 @@ graph TD
     class D storage;
     class F,G hardware;
 
-
+```
 ---
 
 ## ✨ Features
