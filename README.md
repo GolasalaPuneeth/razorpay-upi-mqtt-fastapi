@@ -5,7 +5,6 @@
 [![MQTT](https://img.shields.io/badge/MQTT-Mosquitto-660099?style=flat&logo=eclipse-mosquitto&logoColor=white)](https://mosquitto.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16.0+-4169E1?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 A production-ready, microservices-based IoT payment gateway built with **FastAPI**, **Razorpay UPI Dynamic QR**, **PostgreSQL**, and **Eclipse Mosquitto MQTT**. Fully containerized with **Docker Compose**.
 
