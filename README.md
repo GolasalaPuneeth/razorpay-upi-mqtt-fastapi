@@ -15,33 +15,21 @@ This service bridges real-time UPI micro-transactions with hardware actuation (v
 
 ## 📌 Architecture Overview
 
-[ User App / PhonePe / GPay ]
-│
-│ (1) Scans Dynamic UPI QR Code
-▼
-┌─────────────────┐
-│  Razorpay UPI   │
-└────────┬────────┘
-│
-│ (2) Webhook Callback (payment.captured)
-▼
-┌───────────────────┐               ┌───────────────────┐
-│ FastAPI Backend   ├──────────────►│ PostgreSQL DB     │
-│  (Async Worker)   │  (3) Persist  │ (Transactions)    │
-└─────────┬─────────┘               └───────────────────┘
-│
-│ (4) Publish Payload (devices/{id}/activate)
-▼
-┌───────────────────┐
-│ Mosquitto MQTT    │
-└─────────┬─────────┘
-│
-│ (5) MQTT Command Message
-▼
-┌───────────────────┐
-│  IoT Device       │ ──► (6) Hardware Actuation (Relay/Dispenser)
-│ (ESP32 / Emulator)│
-└───────────────────┘
+graph TD
+    A[📱 User / PhonePe / GPay] -->|1. Scans Dynamic UPI QR| B[💳 Razorpay UPI Gateway]
+    B -->|2. Webhook: payment.captured| C[⚡ FastAPI Backend]
+    C -->|3. Persist State| D[(🗄️ PostgreSQL DB)]
+    C -->|4. Publish Payload| E[📡 Mosquitto MQTT Broker]
+    E -->|5. Command Message| F[🔌 IoT Device / ESP32]
+    F -->|6. Hardware Trigger| G[⚙️ Relay / Dispenser Actuation]
+
+    classDef primary fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff;
+    classDef storage fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#fff;
+    classDef hardware fill:#312e81,stroke:#6366f1,stroke-width:2px,color:#fff;
+    
+    class B,C,E primary;
+    class D storage;
+    class F,G hardware;
 
 
 ---
