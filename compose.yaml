@@ -1,4 +1,21 @@
 services:
+  db:
+      image: postgres:18
+      container_name: postgres_db
+      restart: always
+
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: Admin123
+        POSTGRES_DB: my_costume_database
+
+      ports:
+        - "5432:5432"
+
+      volumes:
+        - ./postgres:/var/lib/postgresql
+
+      shm_size: 128mb
   api:
     build: ./app_backend
     ports:
