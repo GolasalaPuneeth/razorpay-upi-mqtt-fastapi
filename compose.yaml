@@ -1,0 +1,7 @@
+services:
+  api:
+    build: ./app_backend
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./app_backend:/app
