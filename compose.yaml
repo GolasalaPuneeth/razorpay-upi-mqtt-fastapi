@@ -1,4 +1,5 @@
 services:
+
   db:
       image: postgres:18
       container_name: postgres_db
