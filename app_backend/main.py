@@ -1,9 +1,11 @@
 from fastapi import FastAPI,Request
 from pydantic import BaseModel
+from Routes import paymentRoute
 import time
 
 
 app = FastAPI(title="My Application")
+app.include_router(paymentRoute)
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
