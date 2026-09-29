@@ -1,25 +1,43 @@
 services:
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto_mqtt
+    restart: always
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto_mqtt:/mosquitto
 
   db:
-      image: postgres:18
-      container_name: postgres_db
-      restart: always
+    image: postgres:18
+    container_name: postgres_db
+    restart: always
 
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: Admin123
-        POSTGRES_DB: my_costume_database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Admin123
+      POSTGRES_DB: my_costume_database
 
-      ports:
-        - "5432:5432"
+    ports:
+      - "5432:5432"
 
-      volumes:
-        - ./postgres:/var/lib/postgresql
+    volumes:
+      - ./postgres:/var/lib/postgresql
 
-      shm_size: 128mb
+    shm_size: 128mb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d my_costume_database"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
   api:
     build: ./app_backend
     ports:
       - "8001:8001"
     volumes:
       - ./app_backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      mqtt:
+        condition: service_started
