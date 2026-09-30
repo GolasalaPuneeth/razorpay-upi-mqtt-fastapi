@@ -8,6 +8,16 @@ services:
     volumes:
       - ./mosquitto_mqtt:/mosquitto
 
+  redis:
+    image: redis:alpine
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis:/data
+
   db:
     image: postgres:18
     container_name: postgres_db
@@ -40,4 +50,6 @@ services:
       db:
         condition: service_healthy
       mqtt:
+        condition: service_started
+      redis:
         condition: service_started

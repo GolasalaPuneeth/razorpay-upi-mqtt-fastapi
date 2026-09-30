@@ -2,3 +2,4 @@
 /__pycache__/*
 /postgres/*
 __pycache__
+redis
