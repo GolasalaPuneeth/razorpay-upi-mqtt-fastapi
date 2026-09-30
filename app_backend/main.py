@@ -16,18 +16,3 @@ async def add_process_time_header(request: Request, call_next):
     response.headers["X-Response-Time"] = f"{execution_time:.2f} ms"
     return response
 
-
-class Item(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    tax: float | None = None
-
-@app.get("/")
-async def root():
-    return {"message": "FastAPI is running123"}
-
-@app.post('/items/')
-async def items(item:Item):
-    # print(item)
-    return item.model_dump()
