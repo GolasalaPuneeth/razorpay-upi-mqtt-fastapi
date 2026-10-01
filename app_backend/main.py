@@ -1,10 +1,18 @@
-from fastapi import FastAPI,Request
-from pydantic import BaseModel
+from sqlmodel.ext.asyncio.session import AsyncSession
+from fastapi import FastAPI,Request,Depends
+from contextlib import asynccontextmanager
 from Routes import paymentRoute
 import time
 
-
-app = FastAPI(title="Payment API", description="API for handling payment processing", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Initialize DB tables on application startup
+    # await init_db()
+    yield
+app = FastAPI(title="Payment API",
+              description="API for handling payment processing",
+               version="1.0.0",
+               lifespan=lifespan)
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -16,3 +24,11 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 app.include_router(paymentRoute)
+
+# as sample code for refference
+
+# @app.post("/students/", response_model=Student)
+# async def create_student_endpoint(
+#     student: Student, db: AsyncSession = Depends(get_db)
+# ):
+#     return await repo.create_student(session=db, student=student)
