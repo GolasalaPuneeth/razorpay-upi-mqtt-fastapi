@@ -4,8 +4,7 @@ from Routes import paymentRoute
 import time
 
 
-app = FastAPI(title="My Application")
-app.include_router(paymentRoute)
+app = FastAPI(title="Payment API", description="API for handling payment processing", version="1.0.0")
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -16,3 +15,4 @@ async def add_process_time_header(request: Request, call_next):
     response.headers["X-Response-Time"] = f"{execution_time:.2f} ms"
     return response
 
+app.include_router(paymentRoute)
