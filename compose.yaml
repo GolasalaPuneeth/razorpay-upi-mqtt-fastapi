@@ -1,22 +1,22 @@
 services:
-  mqtt:
-    image: eclipse-mosquitto:latest
-    container_name: mosquitto_mqtt
-    restart: always
-    ports:
-      - "1883:1883"
-    volumes:
-      - ./mosquitto_mqtt:/mosquitto
+  # mqtt:
+  #   image: eclipse-mosquitto:latest
+  #   container_name: mosquitto_mqtt
+  #   restart: always
+  #   ports:
+  #     - "1883:1883"
+  #   volumes:
+  #     - ./mosquitto_mqtt:/mosquitto
 
-  redis:
-    image: redis:alpine
-    container_name: redis_cache
-    restart: always
-    ports:
-      - "6379:6379"
-    command: redis-server --appendonly yes
-    volumes:
-      - ./redis:/data
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis_cache
+  #   restart: always
+  #   ports:
+  #     - "6379:6379"
+  #   command: redis-server --appendonly yes
+  #   volumes:
+  #     - ./redis:/data
 
   db:
     image: postgres:18
@@ -40,27 +40,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-  # pgadmin:
-  #   image: dpage/pgadmin4:latest
-  #   container_name: pgadmin
-  #   restart: unless-stopped
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
-  #     PGADMIN_DEFAULT_PASSWORD: admin123
-  #   ports:
-  #     - "5050:80"
-  #   volumes:
-  #     - ./pgadmin_data:/var/lib/pgadmin
-  api:
-    build: ./app_backend
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
-      - "8001:8001"
+      - "5050:80"
     volumes:
-      - ./app_backend:/app
-    depends_on:
-      db:
-        condition: service_healthy
-      mqtt:
-        condition: service_started
-      redis:
-        condition: service_started
+      - ./pgadmin_data:/var/lib/pgadmin
+  # api:
+  #   build: ./app_backend
+  #   ports:
+  #     - "8001:8001"
+  #   volumes:
+  #     - ./app_backend:/app
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #     mqtt:
+  #       condition: service_started
+  #     redis:
+  #       condition: service_started
