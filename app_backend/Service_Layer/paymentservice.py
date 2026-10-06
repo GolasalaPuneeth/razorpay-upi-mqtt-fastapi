@@ -1,11 +1,11 @@
-from .Ipaymentservice import Ipaymentservice
+from .Ipaymentservice import IPaymentHook
+from sqlmodel.ext.asyncio.session import AsyncSession
+from Database_Layer import create_trx_log, TransactionLogs
 
-class PaymentService(Ipaymentservice):
-    def __init__(self):
-        pass
+class PaymentHook(IPaymentHook):
 
-    def process_payment(self, payment_data):
-        # Implement the payment processing logic here
-        # For example, you can integrate with a payment gateway API
-        # and return the result of the payment processing.
+    async def process_payment(self, payment_data,session:AsyncSession):
+        print(f"payment_data_service_layer -----------> {payment_data}")
+        dummy:TransactionLogs = TransactionLogs(trx_metadata=str(payment_data))
+        await create_trx_log(tranxlogs=dummy,session=session)
         return {"status": "success", "message": "Payment processed successfully."}

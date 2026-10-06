@@ -12,8 +12,6 @@ print(DATABASE_URL)
 
 async_engine = create_async_engine(DATABASE_URL, echo=True, pool_pre_ping=True)
 
-
-
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """FastAPI Dependency Injection for AsyncSession."""
     async_session = sessionmaker(

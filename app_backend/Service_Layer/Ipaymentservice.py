@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from sqlmodel.ext.asyncio.session import AsyncSession
 
-class PaymentHook(ABC):
+
+class IPaymentHook(ABC):
     @abstractmethod
-    def process_payment(self, payment_data):
-        pass
+    async def process_payment(self, payment_data, session: AsyncSession):
+        raise NotImplementedError

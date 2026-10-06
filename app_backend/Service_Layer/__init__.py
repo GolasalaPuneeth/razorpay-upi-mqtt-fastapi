@@ -1,4 +1,4 @@
-from .Ipaymentservice import Ipaymentservice
-from .paymentservice import PaymentService
+from .Ipaymentservice import IPaymentHook
+from .paymentservice import PaymentHook
 
-__all__ = ["Ipaymentservice", "PaymentService"]
+__all__ = ["IPaymentHook", "PaymentHook"]

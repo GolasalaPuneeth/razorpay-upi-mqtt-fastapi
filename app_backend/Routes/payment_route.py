@@ -5,9 +5,13 @@ import json
 import hmac
 import hashlib
 from Database_Layer import get_db
-
+from Service_Layer import IPaymentHook,PaymentHook
+from dotenv import load_dotenv
+import os
+load_dotenv()
 paymentRoute = APIRouter(tags=["Payment Procesor Routes and Hooks"], prefix="/payment")
-WEBHOOK_SECRET = ""  # Replace with your actual webhook secret
+WEBHOOK_SECRET = os.getenv('RAZORPAY_WEBHOOK_SECRET')
+services: IPaymentHook = PaymentHook()
 
 @paymentRoute.post("/webhook")
 async def razorpay_webhook(
@@ -38,9 +42,10 @@ async def razorpay_webhook(
     # 4. Handle events
     if event == "qr_code.credited":
         data = payload["payload"]["qr_code"]["entity"]
-        print(data)
-        Amount = payload['payload']['payment']['entity']['amount']
-        Qr_ID = payload['payload']['qr_code']['entity']['id']
-        print(Amount,Qr_ID)
+        # print(data)
+        # Amount = payload['payload']['payment']['entity']['amount']
+        # Qr_ID = payload['payload']['qr_code']['entity']['id']
+        # print(Amount,Qr_ID)
+        await services.process_payment(data,session)
     return {"status": "ok"}
 
