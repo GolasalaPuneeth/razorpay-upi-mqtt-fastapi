@@ -2,13 +2,16 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import FastAPI,Request,Depends
 from contextlib import asynccontextmanager
 from Routes import paymentRoute
+from Database_Layer import init_db
 import time
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Initialize DB tables on application startup
-    # await init_db()
+    print("---------------> Pull up")
+    await init_db()
     yield
+    print("---------------> Pull Down")
+    
 app = FastAPI(title="Payment API",
               description="API for handling payment processing",
                version="1.0.0",

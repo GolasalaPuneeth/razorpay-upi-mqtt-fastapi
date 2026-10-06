@@ -1,22 +1,22 @@
 from sqlmodel import Field, SQLModel
 
 
-class Student(SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
-    name: str
-    email: str
-    age: int
+class TransactionLogs(SQLModel, table=True):
+    __tablename__ = "transaction_logs"
 
-class transaction_logs(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    metadata: str
+    trx_metadata: str
 
-class device_logs(SQLModel, table=True):
+class DeviceLogs(SQLModel, table=True):
+    __tablename__ = "device_logs"
+
     id: int | None = Field(default=None, primary_key=True)
     device_id: str
     trx_status: str
 
-class device_settings(SQLModel, table=True):
+class DeviceSettings(SQLModel, table=True):
+    __tablename__ = "device_settings"
+
     id: int | None = Field(default=None, primary_key=True)
     device_id: str
     settings: str

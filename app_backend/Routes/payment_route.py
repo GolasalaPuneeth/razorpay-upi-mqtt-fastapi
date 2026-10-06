@@ -1,8 +1,10 @@
-from fastapi import APIRouter,Header
+from fastapi import APIRouter,Header,Depends
 from fastapi import Request, HTTPException
+from sqlmodel.ext.asyncio.session import AsyncSession
 import json
 import hmac
 import hashlib
+from Database_Layer import get_db
 
 paymentRoute = APIRouter(tags=["Payment Procesor Routes and Hooks"], prefix="/payment")
 WEBHOOK_SECRET = ""  # Replace with your actual webhook secret
@@ -11,7 +13,8 @@ WEBHOOK_SECRET = ""  # Replace with your actual webhook secret
 async def razorpay_webhook(
     request: Request,
     x_razorpay_signature: str = Header(None),
-    x_razorpay_event_id: str = Header(None)
+    x_razorpay_event_id: str = Header(None),
+    session:AsyncSession= Depends(get_db)
     ):
     # 1. Read raw body
     body = await request.body()
@@ -35,16 +38,9 @@ async def razorpay_webhook(
     # 4. Handle events
     if event == "qr_code.credited":
         data = payload["payload"]["qr_code"]["entity"]
-
-        # payment_id = data.get("payment_id")
-        # amount = data.get("amount")
-
-        # print("Payment received:", payment_id, amount)
-        # print(payload)
         print(data)
         Amount = payload['payload']['payment']['entity']['amount']
         Qr_ID = payload['payload']['qr_code']['entity']['id']
-        # await Services.push_service(qrid=Qr_ID,amount=Amount,vpa="saple@123")
         print(Amount,Qr_ID)
     return {"status": "ok"}
 
