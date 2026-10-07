@@ -13,7 +13,8 @@ class DeviceLogs(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     device_id: str
     trx_status: str
-
+    trx_metadata: str
+    
 class DeviceSettings(SQLModel, table=True):
     __tablename__ = "device_settings"
 
