@@ -1,7 +1,7 @@
 from sqlmodel.ext.asyncio.session import AsyncSession
 from fastapi import FastAPI,Request,Depends
 from contextlib import asynccontextmanager
-from Routes import paymentRoute
+from Routes import paymentRoute,testcases
 from Database_Layer import init_db
 import time
 
@@ -27,6 +27,7 @@ async def add_process_time_header(request: Request, call_next):
     return response
 
 app.include_router(paymentRoute)
+app.include_router(testcases)
 
 # as sample code for refference
 

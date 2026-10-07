@@ -1,9 +1,12 @@
 import paho.mqtt.publish as publish
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 class MQTTTool:
-    def __init__(self, broker_url: str, broker_port: int):
-        self.broker_url = broker_url
-        self.broker_port = broker_port
+    def __init__(self):
+        self.broker_url = os.getenv('MQTT_HOST')
+        self.broker_port = int(os.getenv('MQTT_PORT'))
 
     def publish_message(self, topic: str, message: str):
         try:

@@ -6,6 +6,6 @@ class PaymentHook(IPaymentHook):
 
     async def process_payment(self, payment_data,session:AsyncSession):
         print(f"payment_data_service_layer -----------> {payment_data}")
-        dummy:TransactionLogs = TransactionLogs(trx_metadata=str(payment_data))
-        await create_trx_log(tranxlogs=dummy,session=session)
+        await create_trx_log(tranxlogs=TransactionLogs(trx_metadata=str(payment_data)),session=session)
+        
         return {"status": "success", "message": "Payment processed successfully."}
