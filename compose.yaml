@@ -64,3 +64,12 @@ services:
         condition: service_started
       redis:
         condition: service_started
+  celery_worker:
+    build:
+      context: ./app_backend
+      dockerfile: Dockerfile.celery
+    volumes:
+      - ./app_backend:/app
+    depends_on:
+      redis:
+        condition: service_started

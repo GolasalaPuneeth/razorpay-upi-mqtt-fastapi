@@ -1,0 +1,10 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY celery_req.txt ./
+RUN pip install --no-cache-dir -r celery_req.txt
+
+COPY . .
+
+CMD ["celery", "-A", "Celery_worker.config:celery_app", "worker", "--loglevel=info"]
