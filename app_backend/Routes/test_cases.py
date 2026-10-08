@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends
-from sqlmodel import Session
 from App_Utils import MQTTTool
 from Celery_worker import test_task
-from Database_Layer import get_sync_session
 
 testcases = APIRouter(tags=["Test Cases Execution Point"], prefix="/tests")
 mqtttool:MQTTTool = MQTTTool()
