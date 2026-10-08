@@ -1,5 +1,5 @@
 from .models import TransactionLogs
-from sqlmodel import select
+from sqlmodel import select,Session
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 
@@ -10,7 +10,11 @@ async def create_trx_log(tranxlogs: TransactionLogs, session: AsyncSession) -> T
     await session.refresh(tranxlogs)
     return tranxlogs
 
-def tranx_device_logs()
+def tranx_device_logs(data: TransactionLogs,sync_session:Session):
+    sync_session.add(data)
+    sync_session.commit()
+
+
 
 
 
