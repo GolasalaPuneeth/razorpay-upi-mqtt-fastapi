@@ -10,6 +10,7 @@ async def create_trx_log(tranxlogs: TransactionLogs, session: AsyncSession) -> T
     await session.refresh(tranxlogs)
     return tranxlogs
 
+def tranx_device_logs()
 
 
 

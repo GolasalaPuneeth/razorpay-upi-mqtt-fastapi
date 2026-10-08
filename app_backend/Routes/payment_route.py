@@ -1,10 +1,11 @@
 from fastapi import APIRouter,Header,Depends
 from fastapi import Request, HTTPException
 from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlmodel import Session
 import json
 import hmac
 import hashlib
-from Database_Layer import get_db
+from Database_Layer import get_db,get_sync_session
 from Service_Layer import IPaymentHook,PaymentHook
 from dotenv import load_dotenv
 import os
@@ -19,7 +20,8 @@ async def razorpay_webhook(
     request: Request,
     x_razorpay_signature: str = Header(None),
     x_razorpay_event_id: str = Header(None),
-    session:AsyncSession= Depends(get_db)
+    session: AsyncSession= Depends(get_db),
+    sync_session: Session =Depends(get_sync_session)
     ):
     # 1. Read raw body
     body = await request.body()
