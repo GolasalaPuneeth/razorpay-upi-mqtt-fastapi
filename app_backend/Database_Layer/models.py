@@ -7,6 +7,13 @@ class TransactionLogs(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     trx_metadata: str
 
+class TransactionLogs_V2(SQLModel, table=True):
+    __tablename__ = "transaction_logs_v2"
+
+    id: str | None = Field(primary_key=True)
+    trx_metadata: str
+
+
 class DeviceLogs(SQLModel, table=True):
     __tablename__ = "device_logs"
 
